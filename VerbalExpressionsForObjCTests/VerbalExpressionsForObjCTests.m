@@ -35,7 +35,11 @@
 
 - (void)testSomething
 {
+    NSString *testString = @"";
     VerbalExpressions *verex = VerEx().something();
-    XCTAssertNotNil(verex, @"should return a valid instance");
+    XCTAssertFalse([verex test:testString], @"should return NO");
+    
+    NSString *testString2 = @"a";
+    XCTAssertTrue([verex test:testString2], @"should return YES as regex match something");
 }
 @end

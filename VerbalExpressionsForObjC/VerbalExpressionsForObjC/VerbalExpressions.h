@@ -9,6 +9,14 @@
 #import <Foundation/Foundation.h>
 
 @interface VerbalExpressions : NSObject
+@property (strong, nonatomic, readonly) NSRegularExpression *regex;
+
 extern VerbalExpressions * VerEx();
+
+
 - (VerbalExpressions *(^)())something;
+
+
+- (BOOL)test:(NSString*)toTest;
+- (NSString *)getRegexString;
 @end
