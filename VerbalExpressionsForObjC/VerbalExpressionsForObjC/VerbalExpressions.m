@@ -37,6 +37,7 @@ extern VerbalExpressions * VerEx() {
     return self;
 }
 
+#pragma mark - Expressions
 - (VerbalExpressions *(^)())something
 {
     return ^(){
@@ -44,12 +45,55 @@ extern VerbalExpressions * VerEx() {
     };
 }
 
+- (VerbalExpressions *(^)(NSString*))somethingBut
+{
+    return ^(NSString* value){
+        return [self add:[NSString stringWithFormat:@"(?:[^%@]+)", value]];
+    };
+}
+
+-(VerbalExpressions *(^)(BOOL))startOfLine
+{
+    return ^(BOOL enable){
+        _prefixes = enable ? @"^" :@"";
+        return self;
+    };
+}
+
+-(VerbalExpressions *(^)(BOOL))endOfLine
+{
+    return ^(BOOL enable){
+        _suffixes = enable ? @"$" :@"";
+        return self;
+    };
+}
+
+-(VerbalExpressions *(^)())anything
+{
+    return ^(){
+        return [self add:@"(?:.*)"];
+    };
+}
+
+-(VerbalExpressions *(^)(NSString *))anythingBut
+{
+    return ^(NSString* value){
+        return [self add:[NSString stringWithFormat:@"(?:[^%@]*)", value]];
+    };
+}
+
+#pragma mark - Public methods
 -(BOOL)test:(NSString *)toTest
 {
     NSArray *result = [self.regex matchesInString:toTest options:0 range:NSMakeRange(0, toTest.length)];
     return (result.count);
 }
 
+- (NSString *)getRegexString{
+    return [NSString stringWithFormat:@"%@%@%@",_prefixes,_source,_suffixes];
+}
+
+#pragma mark - Private methods
 - (VerbalExpressions *)add:(NSString *)value
 {
     _source = (value)?[_source stringByAppendingString:value]:_source;
@@ -68,7 +112,4 @@ extern VerbalExpressions * VerEx() {
     return _regex;
 }
 
-- (NSString *)getRegexString{
-    return [NSString stringWithFormat:@"%@%@%@",_prefixes,_source,_suffixes];
-}
 @end
