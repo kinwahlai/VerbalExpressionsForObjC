@@ -79,6 +79,49 @@
     // Kin Wah: Dont really understand how to use somethingBut and anythingBut
     NSString *testString = @"what";
     VerbalExpressions *verex = VerEx().startOfLine(YES).anythingBut(@"w");
-    XCTAssertTrue([verex test:testString], @"starts with w");
+    XCTAssertTrue([verex test:testString], @"not starts with w");
 }
+
+-(void)testThen
+{
+    NSString *testString = @"ba";
+    VerbalExpressions *verex = VerEx().then(@"b").then(@"a");
+    XCTAssertTrue([verex test:testString], @"not starts with b then a");
+}
+
+- (void) testMaybe {
+    NSString *testString = @"acb";
+    VerbalExpressions *verex = VerEx().startOfLine(YES).then(@"a").maybe(@"b");
+    XCTAssertTrue([verex test:testString], "no maybe has a b after an a");
+    testString = @"abc";
+    XCTAssertTrue([verex test:testString], "no maybe has a b after an a");
+}
+
+- (void) testFind
+{
+    NSString *testString = @"http://www.google.com";
+    VerbalExpressions *verex = VerEx().find(@"google");
+    XCTAssertTrue([verex test:testString], @"google not found");
+}
+
+- (void) testAnyOf
+{
+    NSString *testString = @"ay";
+    VerbalExpressions *verex = VerEx().startOfLine(YES).then(@"a").anyOf(@"xyz");
+    XCTAssertTrue([verex test:testString], @"doesnt have an x, y, or z after a");
+    testString = @"abc";
+    XCTAssertFalse([verex test:testString], @"has an x, y, or z after a");
+}
+
+- (void) testOr
+{
+    NSString *testString = @"defzzz";
+    VerbalExpressions *verex = VerEx().startOfLine(YES).then(@"abc").OR(@"def").something().endOfLine(YES);
+    XCTAssertTrue([verex test:testString], @"doesnt starts with abc or def");
+    
+    testString = @"xyzabc";
+    XCTAssertFalse([verex test:testString], @"starts with abc or def");
+}
+
+
 @end

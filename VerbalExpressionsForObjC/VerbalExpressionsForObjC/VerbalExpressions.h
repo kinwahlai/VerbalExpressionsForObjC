@@ -23,4 +23,11 @@ extern VerbalExpressions * VerEx();
 @property (readonly) VerbalExpressions *(^endOfLine)(BOOL enable);
 @property (readonly) VerbalExpressions *(^anything)();
 @property (readonly) VerbalExpressions *(^anythingBut)(NSString* value);
+@property (readonly) VerbalExpressions *(^then)(NSString* value);
+@property (readonly) VerbalExpressions *(^find)(NSString* value);
+@property (readonly) VerbalExpressions *(^maybe)(NSString* value);
+@property (readonly) VerbalExpressions *(^any)(NSString* value);
+@property (readonly) VerbalExpressions *(^anyOf)(NSString* value);
+// `or` is a Obj C keyword so we use `OR` instead.
+@property (readonly) VerbalExpressions *(^OR)(NSString* value);
 @end

@@ -82,6 +82,55 @@ extern VerbalExpressions * VerEx() {
     };
 }
 
+-(VerbalExpressions *(^)(NSString *))then
+{
+    return ^(NSString* value){
+        return [self add:[NSString stringWithFormat:@"(?:%@)", value]];
+    };
+}
+
+-(VerbalExpressions *(^)(NSString * value))find
+{
+    return ^(NSString* value){
+        return self.then(value);
+    };
+}
+
+-(VerbalExpressions *(^)(NSString *))maybe
+{
+    return ^(NSString* value){
+        return [self add:[NSString stringWithFormat:@"(?:%@)?", value]];
+    };
+}
+
+-(VerbalExpressions *(^)(NSString *))anyOf
+{
+    return ^(NSString* value){
+        return [self add:[NSString stringWithFormat:@"[%@]", value]];
+    };
+}
+
+-(VerbalExpressions *(^)(NSString *))any
+{
+    return ^(NSString* value){
+        return self.anyOf(value);
+    };
+}
+
+-(VerbalExpressions *(^)(NSString *))OR
+{
+    return ^(NSString* value){
+        _prefixes = [_prefixes stringByAppendingString:@"(?:"];
+        [self add:@")|(?:"];
+        
+        if (value) {
+            self.then(value);
+        }
+        [self add:@")"];
+        return self;
+    };
+}
+
 #pragma mark - Public methods
 -(BOOL)test:(NSString *)toTest
 {
