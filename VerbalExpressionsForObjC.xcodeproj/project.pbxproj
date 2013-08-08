@@ -18,8 +18,8 @@
 		8B2E3ABC17B27314008983DE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B2E3A9B17B27314008983DE /* Cocoa.framework */; };
 		8B2E3AC417B27314008983DE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8B2E3AC217B27314008983DE /* InfoPlist.strings */; };
 		8B2E3AC617B27314008983DE /* VerbalExpressionsForObjCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2E3AC517B27314008983DE /* VerbalExpressionsForObjCTests.m */; };
-		8B2E3AD217B273AA008983DE /* VerbalExpressions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2E3AD117B273AA008983DE /* VerbalExpressions.m */; };
-		8B2E3AD317B273AA008983DE /* VerbalExpressions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B2E3AD117B273AA008983DE /* VerbalExpressions.m */; };
+		8BB5198117B3270300595288 /* VerbalExpressions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB5198017B3270300595288 /* VerbalExpressions.m */; };
+		8BB5198217B3270300595288 /* VerbalExpressions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BB5198017B3270300595288 /* VerbalExpressions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,8 +52,8 @@
 		8B2E3AC117B27314008983DE /* VerbalExpressionsForObjCTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VerbalExpressionsForObjCTests-Info.plist"; sourceTree = "<group>"; };
 		8B2E3AC317B27314008983DE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8B2E3AC517B27314008983DE /* VerbalExpressionsForObjCTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerbalExpressionsForObjCTests.m; sourceTree = "<group>"; };
-		8B2E3AD017B273AA008983DE /* VerbalExpressions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerbalExpressions.h; sourceTree = "<group>"; };
-		8B2E3AD117B273AA008983DE /* VerbalExpressions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerbalExpressions.m; sourceTree = "<group>"; };
+		8BB5197F17B3270300595288 /* VerbalExpressions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VerbalExpressions.h; sourceTree = SOURCE_ROOT; };
+		8BB5198017B3270300595288 /* VerbalExpressions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VerbalExpressions.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,7 +119,7 @@
 		8B2E3AA117B27314008983DE /* VerbalExpressionsForObjC */ = {
 			isa = PBXGroup;
 			children = (
-				8B2E3ACF17B2738D008983DE /* VerbalExpressionsForObjC */,
+				8BB5197E17B326F100595288 /* Classes */,
 				8B2E3AAD17B27314008983DE /* AppDelegate.h */,
 				8B2E3AAE17B27314008983DE /* AppDelegate.m */,
 				8B2E3AB017B27314008983DE /* MainMenu.xib */,
@@ -159,13 +159,13 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		8B2E3ACF17B2738D008983DE /* VerbalExpressionsForObjC */ = {
+		8BB5197E17B326F100595288 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				8B2E3AD017B273AA008983DE /* VerbalExpressions.h */,
-				8B2E3AD117B273AA008983DE /* VerbalExpressions.m */,
+				8BB5197F17B3270300595288 /* VerbalExpressions.h */,
+				8BB5198017B3270300595288 /* VerbalExpressions.m */,
 			);
-			path = VerbalExpressionsForObjC;
+			name = Classes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -268,7 +268,7 @@
 			files = (
 				8B2E3AAF17B27314008983DE /* AppDelegate.m in Sources */,
 				8B2E3AA817B27314008983DE /* main.m in Sources */,
-				8B2E3AD217B273AA008983DE /* VerbalExpressions.m in Sources */,
+				8BB5198117B3270300595288 /* VerbalExpressions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,7 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8B2E3AC617B27314008983DE /* VerbalExpressionsForObjCTests.m in Sources */,
-				8B2E3AD317B273AA008983DE /* VerbalExpressions.m in Sources */,
+				8BB5198217B3270300595288 /* VerbalExpressions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -482,6 +482,7 @@
 				8B2E3ACB17B27314008983DE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8B2E3ACC17B27314008983DE /* Build configuration list for PBXNativeTarget "VerbalExpressionsForObjCTests" */ = {
 			isa = XCConfigurationList;
@@ -490,6 +491,7 @@
 				8B2E3ACE17B27314008983DE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
