@@ -36,4 +36,17 @@ extern VerbalExpressions * VerEx();
 @property (readonly) VerbalExpressions *(^tab)();
 @property (readonly) VerbalExpressions *(^word)();
 @property (readonly) VerbalExpressions *(^withAnyCase)(BOOL enable);
+@property (readonly) VerbalExpressions *(^searchOneLine)(BOOL enable);
+@property (readonly) NSString *(^replace)(NSString *source, NSString *value);
+@property (readonly) VerbalExpressions *(^range)(NSArray *args);
 @end
+
+/*
+ TODO: 
+ sanitize ?? dunno how
+
+ range
+ stopatfirst
+ multiple
+ begincapture & endcapture
+ */

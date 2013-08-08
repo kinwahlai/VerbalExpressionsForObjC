@@ -171,6 +171,52 @@ extern VerbalExpressions * VerEx() {
     };
 }
 
+-(VerbalExpressions *(^)(BOOL))searchOneLine
+{
+    // TODO: verify if this is correct
+    return ^(BOOL enable){
+        if (enable) {
+            return [self removeModifier:NSRegularExpressionDotMatchesLineSeparators];
+        }
+        else {
+            return [self addModifier:NSRegularExpressionDotMatchesLineSeparators];
+        }
+    };
+}
+
+-(NSString *(^)(NSString *, NSString *))replace
+{
+    return ^(NSString * source, NSString * value){
+        return [self.regex stringByReplacingMatchesInString:source options:0 range:NSMakeRange(0, [source length]) withTemplate:value];
+    };
+}
+
+-(VerbalExpressions *(^)(NSArray *))range
+{
+    return ^(NSArray *args){
+        if(!args || args.count == 0  || args.count % 2 == 1)
+        {
+            [NSException raise:@"Invalid range" format:@"range needs one or more pairs of arguments to work."];
+        }
+        
+        NSString *value = @"[";
+        
+        for(int _from = 0; _from < args.count; _from += 2) {
+            int _to = _from+1;
+            if(args.count <= _to) break;
+            
+            NSString *from = args[_from];
+            NSString *to = args[_to];
+            
+            value = [NSString stringWithFormat:@"%@%@-%@", value, from, to];
+        }
+        
+        value = [value stringByAppendingString:@"]"];
+        
+        return [self add:value];
+    };
+}
+
 #pragma mark - Public methods
 -(BOOL)test:(NSString *)toTest
 {

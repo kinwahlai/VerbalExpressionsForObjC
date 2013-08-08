@@ -153,4 +153,30 @@
     VerbalExpressions *verex2 = VerEx().then(@"a").withAnyCase(YES);
     XCTAssertTrue([verex2 test:testString], @"case insensitive should match");
 }
+
+- (void) testSearchOnLine
+{
+    NSString *testString = @"a\nb";
+    VerbalExpressions *verex = VerEx().startOfLine(YES).then(@"a").br().then(@"b").endOfLine(YES);
+    XCTAssertTrue([verex test:testString], @"b is not on the second line");
+    VerbalExpressions *verex2 = VerEx().startOfLine(YES).then(@"a").br().then(@"b").endOfLine(YES).searchOneLine(YES);
+    XCTAssertTrue([verex2 test:testString], @"b is on the second line but we are only searching the first");
+}
+
+- (void) testReplace
+{
+    NSString *testString = @"http://www.google.com";
+    
+    NSString *result = VerEx().find(@"google").replace(testString,@"yahoo");
+    
+    XCTAssertTrue([result isEqualToString:@"http://www.yahoo.com"], @"cannot find the text to replace");
+}
+
+- (void) testRange {
+    NSString *testString = @"ahd";
+    VerbalExpressions *verex = VerEx().something().range(@[@"a",@"i"]);
+    XCTAssertTrue([verex test:testString], @"not within range");
+    
+    XCTAssertThrows(VerEx().something().range(@[]), @"expecting an exception");
+}
 @end
