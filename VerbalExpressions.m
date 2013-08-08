@@ -23,7 +23,7 @@
 @end
 
 @implementation VerbalExpressions
-extern VerbalExpressions * VerEx() {
+VerbalExpressions * VerEx() {
     return [[VerbalExpressions alloc]init];
 }
 
@@ -217,16 +217,50 @@ extern VerbalExpressions * VerEx() {
     };
 }
 
+-(VerbalExpressions *(^)(NSString *))multiple
+{
+    return ^(NSString *value){
+        NSString *safeValue = value;
+        NSString *lastStr = [safeValue substringFromIndex:safeValue.length-1];
+        if (![lastStr isEqualToString:@"+"] && ![lastStr isEqualToString:@"*"]) {
+            safeValue = [safeValue stringByAppendingString:@"+"];
+        }
+        return [self add:safeValue];
+    };
+}
+
+-(VerbalExpressions *(^)())beginCapture
+{
+    return ^(){
+        _suffixes = [_suffixes stringByAppendingFormat:@")"];
+        return [self add:@"("];
+    };
+}
+
+-(VerbalExpressions *(^)())endCapture
+{
+    return ^(){
+        _suffixes = [_suffixes substringWithRange:NSMakeRange(0, _suffixes.length-1)];
+        return [self add:@")"];
+    };
+}
+
 #pragma mark - Public methods
+-(NSArray *)capture:(NSString *)toTest
+{
+   return [self.regex matchesInString:toTest options:0 range:NSMakeRange(0, toTest.length)];
+}
+
 -(BOOL)test:(NSString *)toTest
 {
-    NSArray *result = [self.regex matchesInString:toTest options:0 range:NSMakeRange(0, toTest.length)];
-    return (result.count);
+    return ([self capture:toTest].count);
 }
 
 - (NSString *)getRegexString{
     return [NSString stringWithFormat:@"%@%@%@",_prefixes,_source,_suffixes];
 }
+
+
 
 #pragma mark - Private methods
 - (VerbalExpressions *)add:(NSString *)value

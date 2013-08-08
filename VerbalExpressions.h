@@ -15,6 +15,7 @@
 extern VerbalExpressions * VerEx();
 
 - (BOOL)test:(NSString*)toTest;
+- (NSArray*)capture:(NSString*)toTest;
 - (NSString *)getRegexString;
 
 @property (readonly) VerbalExpressions *(^something)();
@@ -39,14 +40,7 @@ extern VerbalExpressions * VerEx();
 @property (readonly) VerbalExpressions *(^searchOneLine)(BOOL enable);
 @property (readonly) NSString *(^replace)(NSString *source, NSString *value);
 @property (readonly) VerbalExpressions *(^range)(NSArray *args);
+@property (readonly) VerbalExpressions *(^multiple)(NSString* value);
+@property (readonly) VerbalExpressions *(^beginCapture)();
+@property (readonly) VerbalExpressions *(^endCapture)();
 @end
-
-/*
- TODO: 
- sanitize ?? dunno how
-
- range
- stopatfirst
- multiple
- begincapture & endcapture
- */

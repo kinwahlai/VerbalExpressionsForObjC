@@ -159,7 +159,7 @@
     NSString *testString = @"a\nb";
     VerbalExpressions *verex = VerEx().startOfLine(YES).then(@"a").br().then(@"b").endOfLine(YES);
     XCTAssertTrue([verex test:testString], @"b is not on the second line");
-    VerbalExpressions *verex2 = VerEx().startOfLine(YES).then(@"a").br().then(@"b").endOfLine(YES).searchOneLine(YES);
+    VerbalExpressions *verex2 = VerEx().searchOneLine(YES).startOfLine(YES).then(@"a").br().then(@"b").endOfLine(YES);
     XCTAssertTrue([verex2 test:testString], @"b is on the second line but we are only searching the first");
 }
 
@@ -172,11 +172,67 @@
     XCTAssertTrue([result isEqualToString:@"http://www.yahoo.com"], @"cannot find the text to replace");
 }
 
-- (void) testRange {
+- (void) testRange
+{
     NSString *testString = @"ahd";
     VerbalExpressions *verex = VerEx().something().range(@[@"a",@"i"]);
     XCTAssertTrue([verex test:testString], @"not within range");
     
     XCTAssertThrows(VerEx().something().range(@[]), @"expecting an exception");
+}
+
+- (void) testMultiple
+{
+    NSString *testString = @"baac";
+    VerbalExpressions *verex = VerEx().startOfLine(YES).then(@"b").multiple(@"a").then(@"c").endOfLine(YES);
+    XCTAssertTrue([verex test:testString], @"doesnt match");
+}
+
+- (void) testCapture {
+    NSString *testString = @"http://www.google.com";
+    
+    VerbalExpressions *verex = VerEx()
+    .searchOneLine(YES)
+    .beginCapture()
+    .find(@"google")
+    .endCapture();
+    
+    NSArray *matches = [verex capture:testString];
+    XCTAssert(matches.count == 1, @"no result or multiple result");
+    for (NSTextCheckingResult *match in matches)
+    {
+        NSRange matchRange = match.range;
+        NSString *captured = [testString substringWithRange:matchRange];
+        XCTAssert([captured isEqualToString:@"google"], @"");
+    }
+}
+
+- (void) testValidEmail {
+    VerbalExpressions *verex = VerEx()
+    .searchOneLine(YES)
+    .startOfLine(YES)
+    .something()
+    .then(@"@")
+    .something()
+    .then(@".")
+    .then(@"co")
+    .maybe(@"com");
+    XCTAssertTrue([verex test:@"kinwah.lai@gmail.com"], @"not a valid email");
+    XCTAssertTrue([verex test:@"appleseed@yahoo.co.uk"], @"not a valid email");
+}
+
+- (void) testHTTPURL {
+    VerbalExpressions *verex = VerEx()
+    .searchOneLine(YES)
+    .startOfLine(YES)
+    .then( @"http" )
+    .maybe( @"s" )
+    .then( @"://" )
+    .maybe( @"www." )
+    .anythingBut( @" " )
+    .endOfLine(YES);
+    XCTAssertTrue([verex test:@"https://mail.google.com"], @"not a valid url");
+    XCTAssertTrue([verex test:@"http://google.com"], @"not a valid url");
+    XCTAssertTrue([verex test:@"http://www.google.com"], @"not a valid url");
 }
 @end
