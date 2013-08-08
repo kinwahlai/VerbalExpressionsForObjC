@@ -21,8 +21,8 @@ extern VerbalExpressions * VerEx();
 @property (readonly) VerbalExpressions *(^something)();
 @property (readonly) VerbalExpressions *(^somethingBut)(NSString* value);
 // TODO : How to have another startOfLine() without parameter?
-@property (readonly) VerbalExpressions *(^startOfLine)(BOOL enable);
-@property (readonly) VerbalExpressions *(^endOfLine)(BOOL enable);
+@property (readonly) VerbalExpressions *(^startOfLine)();
+@property (readonly) VerbalExpressions *(^endOfLine)();
 @property (readonly) VerbalExpressions *(^anything)();
 @property (readonly) VerbalExpressions *(^anythingBut)(NSString* value);
 @property (readonly) VerbalExpressions *(^then)(NSString* value);

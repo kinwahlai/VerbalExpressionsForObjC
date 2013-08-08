@@ -52,18 +52,18 @@ VerbalExpressions * VerEx() {
     };
 }
 
--(VerbalExpressions *(^)(BOOL))startOfLine
+-(VerbalExpressions *(^)())startOfLine
 {
-    return ^(BOOL enable){
-        _prefixes = enable ? @"^" :@"";
+    return ^(){
+        _prefixes = @"^";
         return self;
     };
 }
 
--(VerbalExpressions *(^)(BOOL))endOfLine
+-(VerbalExpressions *(^)())endOfLine
 {
-    return ^(BOOL enable){
-        _suffixes = enable ? @"$" :@"";
+    return ^(){
+        _suffixes = @"$";
         return self;
     };
 }
@@ -159,7 +159,7 @@ VerbalExpressions * VerEx() {
     };
 }
 
--(VerbalExpressions *(^)(BOOL enable))withAnyCase
+-(VerbalExpressions *(^)(BOOL))withAnyCase
 {
     return ^(BOOL enable){
         if (enable) {

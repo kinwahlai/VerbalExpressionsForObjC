@@ -63,14 +63,14 @@
 
 -(void)testEndOfLine
 {
-    VerbalExpressions *verex = VerEx().endOfLine(YES).something();
+    VerbalExpressions *verex = VerEx().endOfLine().something();
     XCTAssertTrue([[verex getRegexString] isEqualToString:@"(?:.+)$"], @"regex string should ends with $");
 }
 
 -(void)testAnything
 {
     NSString *testString = @"what";
-    VerbalExpressions *verex = VerEx().startOfLine(YES).anything();
+    VerbalExpressions *verex = VerEx().startOfLine().anything();
     XCTAssertTrue([verex test:testString], @"should return YES as regex match anything");
 }
 
@@ -78,7 +78,7 @@
 {
     // Kin Wah: Dont really understand how to use somethingBut and anythingBut
     NSString *testString = @"what";
-    VerbalExpressions *verex = VerEx().startOfLine(YES).anythingBut(@"w");
+    VerbalExpressions *verex = VerEx().startOfLine().anythingBut(@"w");
     XCTAssertTrue([verex test:testString], @"not starts with w");
 }
 
@@ -91,7 +91,7 @@
 
 - (void) testMaybe {
     NSString *testString = @"acb";
-    VerbalExpressions *verex = VerEx().startOfLine(YES).then(@"a").maybe(@"b");
+    VerbalExpressions *verex = VerEx().startOfLine().then(@"a").maybe(@"b");
     XCTAssertTrue([verex test:testString], "no maybe has a b after an a");
     testString = @"abc";
     XCTAssertTrue([verex test:testString], "no maybe has a b after an a");
@@ -107,7 +107,7 @@
 - (void) testAnyOf
 {
     NSString *testString = @"ay";
-    VerbalExpressions *verex = VerEx().startOfLine(YES).then(@"a").anyOf(@"xyz");
+    VerbalExpressions *verex = VerEx().startOfLine().then(@"a").anyOf(@"xyz");
     XCTAssertTrue([verex test:testString], @"doesnt have an x, y, or z after a");
     testString = @"abc";
     XCTAssertFalse([verex test:testString], @"has an x, y, or z after a");
@@ -116,7 +116,7 @@
 - (void) testOr
 {
     NSString *testString = @"defzzz";
-    VerbalExpressions *verex = VerEx().startOfLine(YES).then(@"abc").OR(@"def").something().endOfLine(YES);
+    VerbalExpressions *verex = VerEx().startOfLine().then(@"abc").OR(@"def").something().endOfLine();
     XCTAssertTrue([verex test:testString], @"doesnt starts with abc or def");
     
     testString = @"xyzabc";
@@ -126,11 +126,11 @@
 - (void) testLineBreak
 {
     NSString *testString = @"abc\r\ndef";
-    VerbalExpressions *verex = VerEx().startOfLine(YES).then(@"abc").lineBreak().then(@"def");
+    VerbalExpressions *verex = VerEx().startOfLine().then(@"abc").lineBreak().then(@"def");
     XCTAssertTrue([verex test:testString], @"doesnt have linebreak between abc and def");
     
     NSString *testString2 = @"pqr\nsty";
-    VerbalExpressions *verex2 = VerEx().startOfLine(YES).then(@"pqr").br().then(@"sty");
+    VerbalExpressions *verex2 = VerEx().startOfLine().then(@"pqr").br().then(@"sty");
     XCTAssertTrue([verex2 test:testString2], @"doesnt have linebreak between pqr and sty");
     
     testString = @"abc\r\n def";
@@ -157,9 +157,9 @@
 - (void) testSearchOnLine
 {
     NSString *testString = @"a\nb";
-    VerbalExpressions *verex = VerEx().startOfLine(YES).then(@"a").br().then(@"b").endOfLine(YES);
+    VerbalExpressions *verex = VerEx().startOfLine().then(@"a").br().then(@"b").endOfLine();
     XCTAssertTrue([verex test:testString], @"b is not on the second line");
-    VerbalExpressions *verex2 = VerEx().searchOneLine(YES).startOfLine(YES).then(@"a").br().then(@"b").endOfLine(YES);
+    VerbalExpressions *verex2 = VerEx().searchOneLine(YES).startOfLine().then(@"a").br().then(@"b").endOfLine();
     XCTAssertTrue([verex2 test:testString], @"b is on the second line but we are only searching the first");
 }
 
@@ -184,7 +184,7 @@
 - (void) testMultiple
 {
     NSString *testString = @"baac";
-    VerbalExpressions *verex = VerEx().startOfLine(YES).then(@"b").multiple(@"a").then(@"c").endOfLine(YES);
+    VerbalExpressions *verex = VerEx().startOfLine().then(@"b").multiple(@"a").then(@"c").endOfLine();
     XCTAssertTrue([verex test:testString], @"doesnt match");
 }
 
@@ -210,7 +210,7 @@
 - (void) testValidEmail {
     VerbalExpressions *verex = VerEx()
     .searchOneLine(YES)
-    .startOfLine(YES)
+    .startOfLine()
     .something()
     .then(@"@")
     .something()
@@ -224,13 +224,13 @@
 - (void) testHTTPURL {
     VerbalExpressions *verex = VerEx()
     .searchOneLine(YES)
-    .startOfLine(YES)
+    .startOfLine()
     .then( @"http" )
     .maybe( @"s" )
     .then( @"://" )
     .maybe( @"www." )
     .anythingBut( @" " )
-    .endOfLine(YES);
+    .endOfLine();
     XCTAssertTrue([verex test:@"https://mail.google.com"], @"not a valid url");
     XCTAssertTrue([verex test:@"http://google.com"], @"not a valid url");
     XCTAssertTrue([verex test:@"http://www.google.com"], @"not a valid url");
