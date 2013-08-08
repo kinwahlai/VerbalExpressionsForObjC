@@ -123,5 +123,34 @@
     XCTAssertFalse([verex test:testString], @"starts with abc or def");
 }
 
+- (void) testLineBreak
+{
+    NSString *testString = @"abc\r\ndef";
+    VerbalExpressions *verex = VerEx().startOfLine(YES).then(@"abc").lineBreak().then(@"def");
+    XCTAssertTrue([verex test:testString], @"doesnt have linebreak between abc and def");
+    
+    NSString *testString2 = @"pqr\nsty";
+    VerbalExpressions *verex2 = VerEx().startOfLine(YES).then(@"pqr").br().then(@"sty");
+    XCTAssertTrue([verex2 test:testString2], @"doesnt have linebreak between pqr and sty");
+    
+    testString = @"abc\r\n def";
+    XCTAssertFalse([verex test:testString], @"space after linebreak");
+}
 
+- (void) testTab
+{
+    NSString *testString = @"\tabc";
+    VerbalExpressions *verex = VerEx().tab().then(@"abc");
+    XCTAssertTrue([verex test:testString], @"doesnt have tab");
+}
+
+- (void) testWithAnyCase
+{
+    NSString *testString = @"A";
+    VerbalExpressions *verex = VerEx().then(@"a");
+    XCTAssertFalse([verex test:testString], @"case sensitive doesnt match");
+    
+    VerbalExpressions *verex2 = VerEx().then(@"a").withAnyCase(YES);
+    XCTAssertTrue([verex2 test:testString], @"case insensitive should match");
+}
 @end

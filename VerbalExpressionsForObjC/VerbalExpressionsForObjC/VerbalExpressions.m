@@ -131,6 +131,46 @@ extern VerbalExpressions * VerEx() {
     };
 }
 
+-(VerbalExpressions *(^)())lineBreak
+{
+    return ^(){
+        return [self add:@"(?:(?:\\n)|(?:\\r\\n))"];
+    };
+}
+
+-(VerbalExpressions *(^)())br
+{
+    return ^(){
+        return self.lineBreak();
+    };
+}
+
+-(VerbalExpressions *(^)())tab
+{
+    return ^(){
+        return [self add:@"\\t"];
+    };
+}
+
+-(VerbalExpressions *(^)())word
+{
+    return ^(){
+        return [self add:@"\\w+"];
+    };
+}
+
+-(VerbalExpressions *(^)(BOOL enable))withAnyCase
+{
+    return ^(BOOL enable){
+        if (enable) {
+            return [self addModifier:NSRegularExpressionCaseInsensitive];
+        }
+        else {
+            return [self removeModifier:NSRegularExpressionCaseInsensitive];
+        }
+    };
+}
+
 #pragma mark - Public methods
 -(BOOL)test:(NSString *)toTest
 {
@@ -153,7 +193,7 @@ extern VerbalExpressions * VerEx() {
     if (!_regex || (_regex && ![_regex.pattern isEqualToString:self.getRegexString])) {
         // create new regex object
         NSError *outError;
-        _regex = [[NSRegularExpression alloc] initWithPattern:self.getRegexString options:0 error:&outError];
+        _regex = [[NSRegularExpression alloc] initWithPattern:self.getRegexString options:_regexOptions error:&outError];
         if (outError) {
             NSLog(@"outError = %@",outError);
         }
@@ -161,4 +201,13 @@ extern VerbalExpressions * VerEx() {
     return _regex;
 }
 
+- (id)addModifier:(NSRegularExpressionOptions)regularExpressionOptions {
+    _regexOptions |= regularExpressionOptions;
+    return self;
+}
+
+- (id)removeModifier:(NSRegularExpressionOptions)regularExpressionOptions {
+    _regexOptions &= ~regularExpressionOptions;
+    return self;
+}
 @end

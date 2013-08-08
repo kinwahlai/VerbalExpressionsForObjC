@@ -10,6 +10,7 @@
 
 @interface VerbalExpressions : NSObject
 @property (strong, nonatomic, readonly) NSRegularExpression *regex;
+@property (nonatomic, readonly) NSRegularExpressionOptions regexOptions;
 
 extern VerbalExpressions * VerEx();
 
@@ -30,4 +31,9 @@ extern VerbalExpressions * VerEx();
 @property (readonly) VerbalExpressions *(^anyOf)(NSString* value);
 // `or` is a Obj C keyword so we use `OR` instead.
 @property (readonly) VerbalExpressions *(^OR)(NSString* value);
+@property (readonly) VerbalExpressions *(^lineBreak)();
+@property (readonly) VerbalExpressions *(^br)();
+@property (readonly) VerbalExpressions *(^tab)();
+@property (readonly) VerbalExpressions *(^word)();
+@property (readonly) VerbalExpressions *(^withAnyCase)(BOOL enable);
 @end
